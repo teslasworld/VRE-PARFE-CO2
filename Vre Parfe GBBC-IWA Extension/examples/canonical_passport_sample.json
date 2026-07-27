@@ -1,0 +1,93 @@
+{
+  "standardEnvelope": {
+    "standardFamily": "GBBC_IWA_DMRV",
+    "standardVersion": "3.0",
+    "extensionSetId": "VRE-PARFE-ContinuousCO2e",
+    "extensionSetVersion": "1.0.0",
+    "methodologySystem": "VRE_PARFE_SOVEREIGN_DMRV",
+    "methodologyAuthority": "VRE_PARFE",
+    "methodologyId": "VP-CO2E-RE-GRID-001",
+    "methodologyVersion": "V1",
+    "qualityStandardRole": "SOVEREIGN_DIGITAL_DMRV_METHOD"
+  },
+  "externalMethodology": {
+    "authority": "UNFCCC_CDM",
+    "methodologyId": "AMS-I.D",
+    "methodologyName": "Small-scale grid-connected renewable electricity",
+    "documentVersion": null,
+    "documentRef": null,
+    "documentHash": null,
+    "validationRefCodes": [
+      "ARTICLE_6_4_PRINCIPLES"
+    ],
+    "purpose": "METHODOLOGY_AND_ADDITIONALITY_REFERENCE_ONLY",
+    "dependencyStatus": "REFERENCE_ONLY_NOT_ISSUANCE_AUTHORITY"
+  },
+  "continuousVerification": {
+    "mode": "CONTINUOUS_MONITORING_AND_VERIFICATION_VIA_REC_EVIDENCE",
+    "sourceOfTruth": "HCS",
+    "verificationEngine": "VRE_PARFE_EDGE_NOTARY_AND_HCS_REPLAY",
+    "recEvidenceValidityStatus": "PASSED",
+    "methodologyGovernanceStatus": "PASSED",
+    "gefScopeGovernanceStatus": "PASSED",
+    "allocationReconciliationStatus": "PASSED",
+    "auditReplayStatus": "REPLAYABLE_VIA_REC"
+  },
+  "auditAssurance": {
+    "assuranceModel": "SYSTEM_CONTROLS_AND_EVIDENCE_REPLAY",
+    "auditorRole": "INDEPENDENT_REPLAY_AND_CONTROL_ASSURANCE",
+    "vvbDependency": "NOT_REQUIRED_FOR_PREPRODUCTION_OR_AUTOMATED_ISSUANCE",
+    "vvbUseWhereRequired": [
+      "METHODOLOGY_RECOGNITION",
+      "SOVEREIGN_APPROVAL",
+      "EXTERNAL_ASSURANCE",
+      "ARTICLE_6_OR_COMPLIANCE_USE_IF_REQUIRED"
+    ],
+    "controlEvidence": {
+      "schemaVersion": "SCHEMAS_V2_OR_LATER",
+      "governanceTopicId": "0.0.8479702",
+      "mintEventsTopicId": "0.0.8585272",
+      "methodScopeHcsSequence": "77",
+      "passportHcsSequence": "374200",
+      "confirmationHcsSequence": "374205"
+    }
+  },
+  "issuedUnit": {
+    "assetType": "CO2_TONNE_LOT",
+    "claimType": "SOVEREIGN_CO2E_DISPLACEMENT_CLAIM",
+    "quantityMgCO2e": 1000000000,
+    "quantityKgCO2e": "1000.000000",
+    "unit": "tCO2e",
+    "tokenId": "0.0.8585274",
+    "serial": "31371",
+    "htsTxId": "0.0.8411690-1783339679-479003501",
+    "lifecycleStatus": "MINTED",
+    "retirementStatus": "NOT_RETIRED"
+  },
+  "parentRecEvidence": [
+    {
+      "claimId": "REC_PARENT_001",
+      "tokenId": "0.0.example",
+      "serial": "1",
+      "finalHcsTopicId": "0.0.example",
+      "finalHcsSequence": "12345"
+    },
+    {
+      "claimId": "REC_PARENT_002",
+      "tokenId": "0.0.example",
+      "serial": "2",
+      "finalHcsTopicId": "0.0.example",
+      "finalHcsSequence": "12346"
+    }
+  ],
+  "allocations": [
+    {
+      "parentRecClaimId": "REC_PARENT_001",
+      "consumedMgCO2e": 491200000
+    },
+    {
+      "parentRecClaimId": "REC_PARENT_002",
+      "consumedMgCO2e": 508800000
+    }
+  ]
+}

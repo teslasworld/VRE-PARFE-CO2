@@ -1,0 +1,93 @@
+{
+  "std": {
+    "sf": "GBBC_IWA_DMRV",
+    "sv": "3.0",
+    "esId": "VRE-PARFE-ContinuousCO2e",
+    "esVer": "1.0.0",
+    "methSys": "VRE_PARFE_SOVEREIGN_DMRV",
+    "methAuth": "VRE_PARFE",
+    "methId": "VP-CO2E-RE-GRID-001",
+    "methVer": "V1",
+    "qsRole": "SOVEREIGN_DIGITAL_DMRV_METHOD"
+  },
+  "extMethod": {
+    "extAuth": "UNFCCC_CDM",
+    "extId": "AMS-I.D",
+    "extName": "Small-scale grid-connected renewable electricity",
+    "docVer": null,
+    "docRef": null,
+    "docHash": null,
+    "valRefs": [
+      "ARTICLE_6_4_PRINCIPLES"
+    ],
+    "purp": "METHODOLOGY_AND_ADDITIONALITY_REFERENCE_ONLY",
+    "depStatus": "REFERENCE_ONLY_NOT_ISSUANCE_AUTHORITY"
+  },
+  "cv": {
+    "mode": "CONTINUOUS_MONITORING_AND_VERIFICATION_VIA_REC_EVIDENCE",
+    "srcTruth": "HCS",
+    "verEng": "VRE_PARFE_EDGE_NOTARY_AND_HCS_REPLAY",
+    "recValid": "PASSED",
+    "methodGov": "PASSED",
+    "gefGov": "PASSED",
+    "allocRecon": "PASSED",
+    "replay": "REPLAYABLE_VIA_REC"
+  },
+  "audit": {
+    "assrModel": "SYSTEM_CONTROLS_AND_EVIDENCE_REPLAY",
+    "audRole": "INDEPENDENT_REPLAY_AND_CONTROL_ASSURANCE",
+    "vvbDep": "NOT_REQUIRED_FOR_PREPRODUCTION_OR_AUTOMATED_ISSUANCE",
+    "vvbUse": [
+      "METHODOLOGY_RECOGNITION",
+      "SOVEREIGN_APPROVAL",
+      "EXTERNAL_ASSURANCE",
+      "ARTICLE_6_OR_COMPLIANCE_USE_IF_REQUIRED"
+    ],
+    "ctrl": {
+      "schemaVer": "SCHEMAS_V2_OR_LATER",
+      "govTopic": "0.0.8479702",
+      "mintTopic": "0.0.8585272",
+      "methodSeq": "77",
+      "passportSeq": "374200",
+      "confirmSeq": "374205"
+    }
+  },
+  "unit": {
+    "asset": "CO2_TONNE_LOT",
+    "claim": "SOVEREIGN_CO2E_DISPLACEMENT_CLAIM",
+    "qtyMg": 1000000000,
+    "qtyKg": "1000.000000",
+    "u": "tCO2e",
+    "tok": "0.0.8585274",
+    "ser": "31371",
+    "htsTx": "0.0.8411690-1783339679-479003501",
+    "life": "MINTED",
+    "retire": "NOT_RETIRED"
+  },
+  "parentRec": [
+    {
+      "claimId": "REC_PARENT_001",
+      "tokenId": "0.0.example",
+      "serial": "1",
+      "finalHcsTopicId": "0.0.example",
+      "finalHcsSequence": "12345"
+    },
+    {
+      "claimId": "REC_PARENT_002",
+      "tokenId": "0.0.example",
+      "serial": "2",
+      "finalHcsTopicId": "0.0.example",
+      "finalHcsSequence": "12346"
+    }
+  ],
+  "alloc": [
+    {
+      "recClaim": "REC_PARENT_001",
+      "consMg": 491200000
+    },
+    {
+      "recClaim": "REC_PARENT_002",
+      "consMg": 508800000
+    }
+  ]
+}
