@@ -4,16 +4,71 @@
 const fs = require("fs");
 
 const rootCanonicalToAbbreviated = {
+  co2ClaimId: "co2Claim",
+  lotId: "lot",
+  scopeKey: "scope",
+  claim: "clm",
+  accounting: "acct",
+  gefScope: "gef",
+  methodScope: "method",
   standardEnvelope: "std",
   externalMethodology: "extMethod",
   continuousVerification: "cv",
   auditAssurance: "audit",
   issuedUnit: "unit",
   parentRecEvidence: "parentRec",
-  allocations: "alloc"
+  allocations: "alloc",
+  netCo2eMg: "netMg",
+  tonneLotMgCO2e: "lotMg"
 };
 
 const scopedCanonicalToAbbreviated = {
+  claim: {
+    claimType: "type",
+    methodologySystem: "methSys",
+    methodologyAuthority: "methAuth",
+    ttfAlignment: "ttf",
+    marketAlignment: "market",
+    article64Applicability: "art64",
+    validationRefCodes: "valRefs",
+    claimUse: "use",
+    methodologyId: "methId",
+    methodologyVersion: "methVer",
+    factorVintageYear: "factorYear",
+    factorDocumentRef: "factorRef",
+    validationStatus: "valStatus",
+    verificationStatus: "verStatus"
+  },
+  accounting: {
+    accountingBoundary: "boundary",
+    calculationMethod: "calc",
+    baselineScenario: "baseline",
+    baselineEmissionsTreatment: "baseEmis",
+    projectEmissionsTreatment: "projEmis",
+    leakageTreatment: "leakage",
+    deductionsTreatment: "deduct",
+    uncertaintyTreatment: "uncert",
+    nettingRule: "netRule",
+    monitoringPlanRef: "monPlan"
+  },
+  gefScope: {
+    grantId: "grant",
+    methodologyId: "methId",
+    methodologyVersion: "methVer",
+    gefValueKgPerKwh: "kgPerKwh",
+    sourceRef: "srcRef",
+    sourceType: "srcType",
+    regionCode: "region",
+    jurisdiction: "jur"
+  },
+  methodScope: {
+    methodScopeId: "methodId",
+    hcsTopicId: "topic",
+    hcsSequence: "seq",
+    projectRef: "project",
+    technologyType: "tech",
+    status: "state"
+  },
   standardEnvelope: {
     standardFamily: "sf",
     standardVersion: "sv",
@@ -75,9 +130,22 @@ const scopedCanonicalToAbbreviated = {
     lifecycleStatus: "life",
     retirementStatus: "retire"
   },
+  parentRecEvidence: {
+    claimId: "claim",
+    tokenId: "tok",
+    serial: "ser",
+    finalHcsTopicId: "topic",
+    finalHcsSequence: "seq"
+  },
   allocations: {
+    entitlementId: "ent",
     parentRecClaimId: "recClaim",
-    consumedMgCO2e: "consMg"
+    consumedMgCO2e: "consMg",
+    sourceKwh: "kwh",
+    parentRecTokenId: "recTok",
+    parentRecSerial: "recSer",
+    parentRecFinalHcsTopicId: "recTopic",
+    parentRecFinalHcsSequence: "recSeq"
   }
 };
 

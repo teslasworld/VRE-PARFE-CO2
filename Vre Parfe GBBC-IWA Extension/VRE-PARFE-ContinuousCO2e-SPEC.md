@@ -12,7 +12,7 @@
 - Use ASCII-safe `Vre Parfe` text in submitted files unless IWA explicitly requests UTF-8 accented branding.
 - Treat this as a local package review. Files will be manually selected for GitHub upload.
 - The package passed the local hygiene checks after cleanup: JSON parse, embedded `dataExample` JSON parse, non-ASCII scan, and trailing-whitespace scan.
-- Next stage: reduce the canonical five-envelope structure into abbreviated forms through an explicit mapping, without changing the dependency model or reintroducing CO2-level telemetry fields.
+- Next stage: reduce the canonical 21-key passport object and its five-envelope core into abbreviated forms through an explicit mapping, without changing the dependency model or reintroducing CO2-level telemetry fields.
 
 ---
 
@@ -33,10 +33,38 @@ Do not model this extension around legacy VVB-led verification either. Continuou
 ## 2. Where this sits relative to what already exists
 
 1. **Live on-chain data**  -  HCS topic `0.0.8585272`, sequences 374200-374208, and governance topic `0.0.8479702`, sequences 76-78, pasted directly from Hashscan by the project owner on 2026-07-06. Ground truth for what Mission Control emits after five-envelope adoption and explicit external-methodology governance.
-2. **`MISSIONCONTROL_LIVE.js`**  -  `buildExternalMethodologySnapshot`, `buildCo2OffsetLotConfirmationPayload`, `buildCo2RegulatoryPassportPayload`, and the CO2 method-scope readiness gate. Verified to emit the five-envelope model and to source `externalMethodology` from governed method-scope evidence, including the existing `parentRecEvidence` array  -  which correctly models the REC-first dependency and needed no structural change.
+2. **`MISSIONCONTROL_LIVE.js`**  -  `buildExternalMethodologySnapshot`, `buildCo2OffsetLotConfirmationPayload`, `buildCo2RegulatoryPassportPayload`, and the CO2 method-scope readiness gate. Verified to emit the 21-key passport object, including the five-envelope core, and to source `externalMethodology` from governed method-scope evidence. The existing `parentRecEvidence` array correctly models the REC-first dependency and needed no structural change.
 3. **`VRE-PARFE-HydroRE`** (merged PR #16)  -  the REC/telemetry evidence layer this set composes with along exactly one seam: `parentRecEvidence`.
 
-## 3. The five-envelope passport model (revised)
+## 3. The 21-key passport object and five-envelope core (revised)
+
+The IWA extension set adds a canonical five-envelope core to the existing CO2 passport object. The complete canonical passport sample is the 21-key top-level object below; the five envelopes are not the whole wire record.
+
+| Top-level key | Required | Role |
+|---|---|---|
+| `type` | Yes | Message discriminator. Required value: `CO2_REGULATORY_PASSPORT`. |
+| `assetType` | Yes | Asset discriminator. Required value: `CO2_TONNE_LOT`. |
+| `co2ClaimId` | Yes | Sovereign CO2 claim identifier. |
+| `lotId` | Yes | CO2 tonne-lot identifier. |
+| `scopeKey` | Yes | Governed scope key for the CO2 passport. |
+| `claim` | Yes | Existing claim object carrying sovereign methodology and claim-status context. |
+| `accounting` | Yes | Existing accounting object carrying boundary, calculation, baseline, leakage, deductions, uncertainty, and netting rules. |
+| `parentRecEvidence` | Yes | Existing traversal seam into the REC evidence layer. |
+| `gefScope` | Yes | Governed emission-factor scope evidence. |
+| `methodScope` | Yes | Governed CO2 methodology scope evidence. |
+| `standardEnvelope` | Yes | Extension-set, standard, and sovereign methodology identity envelope. |
+| `externalMethodology` | Yes | Explicit external methodology citation envelope. Must not be defaulted. |
+| `continuousVerification` | Yes | CO2-owned governance, REC-validity, allocation, and replay gates. |
+| `auditAssurance` | Yes | CO2 replay coordinates and assurance model. |
+| `issuedUnit` | Yes | Issued HTS CO2 unit quantity, token, serial, lifecycle, and retirement status. |
+| `allocations` | Yes | Allocation rows reconciling parent REC evidence into the tonne lot. |
+| `netCo2eMg` | Yes | Net CO2e quantity in milligrams. Retained for live-schema compatibility. |
+| `tonneLotMgCO2e` | Yes | Tonne-lot CO2e quantity in milligrams. Currently duplicates `netCo2eMg` by design. |
+| `status` | Yes | Passport submission status. |
+| `ts` | Yes | ISO-8601 emission timestamp. |
+| `meta` | Yes | Issuer, authority, registration, and network metadata. |
+
+The five-envelope core is:
 
 | Envelope | Field | Live status | Owner |
 |---|---|---|---|
@@ -57,8 +85,8 @@ Do not model this extension around legacy VVB-led verification either. Continuou
 ### 3.1 Verified allocation math (unchanged)
 
 ```
-allocations[0].consumedMgCO2e = 675,200,000
-allocations[1].consumedMgCO2e = 324,800,000
+allocations[0].consumedMgCO2e = 820,000,000
+allocations[1].consumedMgCO2e = 180,000,000
 sum                            = 1,000,000,000  =  totalMgCO2e  OK
 totalMgCO2e / 1,000,000         = 1000.000000    =  totalKgCO2e OK
 ```
@@ -72,7 +100,7 @@ The external UNFCCC/CDM-style methodology citation is distinct from the sovereig
 - `standardEnvelope.methodologyId` / `claim.methodologyId` identify Vre Parfe's own sovereign methodology, e.g. `VP-CO2E-RE-GRID-001`.
 - `externalMethodology.methodologyId` identifies the reference-only external methodology citation, e.g. `AMS-I.D`.
 
-This extension set must not silently invent the external citation. A valid CO2 method scope must declare `externalMethodology.methodologyId` and `externalMethodology.validationRefCodes` in governed HCS evidence. Mission Control must treat a missing external methodology declaration as an incomplete method scope, not as permission to default to `ACM0002`, `AMS-I.D`, or any validation tool.
+This extension set must not silently invent the external citation. A valid CO2 method scope must declare `externalMethodology.methodologyId` and `externalMethodology.validationRefCodes` in governed HCS evidence. Runtime validation MUST reject any `CO2_REGULATORY_PASSPORT` with a missing, empty, or defaulted `externalMethodology.methodologyId`. Use of CDM, Gold Standard, or other external methodology codes must be explicit in governance records, not inferred by platform defaults.
 
 Verified live correction:
 
@@ -102,6 +130,7 @@ If full three-hop replay (CO2 -> REC -> telemetry) needs to be expressed as a si
 - `validateSchema(passport)` (`submitCo2RegulatoryPassport` ~line 2784, `submitCo2OffsetLotConfirmation`) is the natural enforcement point once the new envelopes are added.
 - `recEvidenceValidityStatus`, `methodologyGovernanceStatus`, `gefScopeGovernanceStatus`, and `allocationReconciliationStatus` should be computed from checks Mission Control already performs (or can perform against `methodScope`/`gefScope`/`parentRecEvidence`) at CO2 build time  -  not asserted as static "PASSED" literals.
 - Do not add a telemetry topic reference to the CO2 payload. If deeper replay tooling is wanted later, build it as a traversal helper that follows `parentRecEvidence` into the REC's own passport, rather than as a new CO2-level field.
+- Integration with Three T's Mission Control platform is documented separately in `MISSIONCONTROL_CO2_PASSPORT_ADOPTION_INSTRUCTIONS.md`. The TTF extension set is platform-agnostic; integrators may implement it using any dMRV platform compatible with the GBBC/IWA TTF schema.
 
 ## 6. Known defects found and not carried forward
 
@@ -112,7 +141,7 @@ Two files in the merged `VRE-PARFE-HydroRE` package (confirmed via `git clone` o
 
 ## 7. Next stage: abbreviated forms
 
-The canonical five-envelope model remains the source of truth for this submission:
+The canonical 21-key passport object remains the source of truth for this submission. Its five-envelope core is:
 
 ```text
 standardEnvelope
@@ -122,7 +151,7 @@ auditAssurance
 issuedUnit
 ```
 
-The next stage is to create abbreviated forms for IWA review or runtime compactness. That pass must be a mapped representation of the canonical model, not a semantic rewrite.
+The next stage is to create abbreviated forms for IWA review or runtime compactness. That pass must be a mapped representation of the canonical model, not a semantic rewrite. The current profile is v1 key-level mapping; Phase 6 nested-field and content-level optimization is roadmapped for post-launch once the canonical model has been accepted and proven.
 
 The first abbreviation pass is now defined as a scoped transport/view profile. Root aliases apply globally. Inner aliases apply only inside their owning envelope so that, for example, `issuedUnit.tokenId` can be abbreviated as `unit.tok` without renaming `parentRecEvidence[].tokenId`.
 
@@ -130,6 +159,13 @@ Root aliases:
 
 | Canonical | Abbreviation |
 |---|---|
+| `co2ClaimId` | `co2Claim` |
+| `lotId` | `lot` |
+| `scopeKey` | `scope` |
+| `claim` | `clm` |
+| `accounting` | `acct` |
+| `gefScope` | `gef` |
+| `methodScope` | `method` |
 | `standardEnvelope` | `std` |
 | `externalMethodology` | `extMethod` |
 | `continuousVerification` | `cv` |
@@ -137,11 +173,21 @@ Root aliases:
 | `issuedUnit` | `unit` |
 | `parentRecEvidence` | `parentRec` |
 | `allocations` | `alloc` |
+| `netCo2eMg` | `netMg` |
+| `tonneLotMgCO2e` | `lotMg` |
+
+The short required keys `type`, `assetType`, `status`, `ts`, and `meta` remain unaliased in v1.
 
 Primary scoped aliases:
 
 | Scope | Canonical | Abbreviation |
 |---|---|---|
+| `claim` | `claimType`, `methodologySystem`, `methodologyAuthority`, `ttfAlignment`, `marketAlignment`, `article64Applicability`, `validationRefCodes` | `type`, `methSys`, `methAuth`, `ttf`, `market`, `art64`, `valRefs` |
+| `claim` | `claimUse`, `methodologyId`, `methodologyVersion`, `factorVintageYear`, `factorDocumentRef`, `validationStatus`, `verificationStatus` | `use`, `methId`, `methVer`, `factorYear`, `factorRef`, `valStatus`, `verStatus` |
+| `accounting` | `accountingBoundary`, `calculationMethod`, `baselineScenario`, `baselineEmissionsTreatment`, `projectEmissionsTreatment` | `boundary`, `calc`, `baseline`, `baseEmis`, `projEmis` |
+| `accounting` | `leakageTreatment`, `deductionsTreatment`, `uncertaintyTreatment`, `nettingRule`, `monitoringPlanRef` | `leakage`, `deduct`, `uncert`, `netRule`, `monPlan` |
+| `gefScope` | `grantId`, `methodologyId`, `methodologyVersion`, `gefValueKgPerKwh`, `sourceRef`, `sourceType`, `regionCode`, `jurisdiction` | `grant`, `methId`, `methVer`, `kgPerKwh`, `srcRef`, `srcType`, `region`, `jur` |
+| `methodScope` | `methodScopeId`, `hcsTopicId`, `hcsSequence`, `projectRef`, `technologyType`, `status` | `methodId`, `topic`, `seq`, `project`, `tech`, `state` |
 | `standardEnvelope` | `standardFamily`, `standardVersion`, `extensionSetId`, `extensionSetVersion` | `sf`, `sv`, `esId`, `esVer` |
 | `standardEnvelope` | `methodologySystem`, `methodologyAuthority`, `methodologyId`, `methodologyVersion`, `qualityStandardRole` | `methSys`, `methAuth`, `methId`, `methVer`, `qsRole` |
 | `externalMethodology` | `authority`, `methodologyId`, `methodologyName`, `validationRefCodes`, `dependencyStatus` | `extAuth`, `extId`, `extName`, `valRefs`, `depStatus` |
@@ -151,7 +197,9 @@ Primary scoped aliases:
 | `auditAssurance` | `assuranceModel`, `auditorRole`, `vvbDependency`, `vvbUseWhereRequired`, `controlEvidence` | `assrModel`, `audRole`, `vvbDep`, `vvbUse`, `ctrl` |
 | `controlEvidence` | `schemaVersion`, `governanceTopicId`, `mintEventsTopicId`, `methodScopeHcsSequence`, `passportHcsSequence`, `confirmationHcsSequence` | `schemaVer`, `govTopic`, `mintTopic`, `methodSeq`, `passportSeq`, `confirmSeq` |
 | `issuedUnit` | `assetType`, `claimType`, `quantityMgCO2e`, `quantityKgCO2e`, `unit`, `tokenId`, `serial`, `htsTxId`, `lifecycleStatus`, `retirementStatus` | `asset`, `claim`, `qtyMg`, `qtyKg`, `u`, `tok`, `ser`, `htsTx`, `life`, `retire` |
-| `allocations` | `parentRecClaimId`, `consumedMgCO2e` | `recClaim`, `consMg` |
+| `parentRecEvidence` | `claimId`, `tokenId`, `serial`, `finalHcsTopicId`, `finalHcsSequence` | `claim`, `tok`, `ser`, `topic`, `seq` |
+| `allocations` | `entitlementId`, `parentRecClaimId`, `consumedMgCO2e`, `sourceKwh` | `ent`, `recClaim`, `consMg`, `kwh` |
+| `allocations` | `parentRecTokenId`, `parentRecSerial`, `parentRecFinalHcsTopicId`, `parentRecFinalHcsSequence` | `recTok`, `recSer`, `recTopic`, `recSeq` |
 
 Rules for the abbreviation pass:
 
@@ -186,4 +234,4 @@ The abbreviation profile is implemented as a registry-layer module, not as a rep
 | Proto types | `AbbreviatedPassportProfileOptions`, `AliasMapping`, `PassportReconstructionRequest`, `PassportReconstructionResponse` |
 | Message pair | `Registry Passport Reconstruction Message Pair` |
 
-This makes the abbreviated form available for display, review, and registry quasi-verification while preserving the canonical five-envelope model as the normative source.
+This makes the abbreviated form available for display, review, and registry quasi-verification while preserving the canonical 21-key passport object and its five-envelope core as the normative source.
