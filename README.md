@@ -5,8 +5,9 @@
 **Package ID**: `VRE-PARFE-ContinuousCO2e` (v1.0.0)  
 **Standard**: GBBC/IWA dMRV 3.0  
 **Issuing Authority**: Three T's (Mauritius) Limited (C19166743)  
-**Hedera Network**: Mainnet  
-**Live Proof**: 2026-07-27 ✅  
+**Current Deployment**: Hedera **Testnet**  
+**Mainnet Migration**: 2026-11-17 @ 00:00 hrs MUT  
+**Live Proof**: 2026-07-27 (Testnet) ✅  
 
 ---
 
@@ -42,15 +43,15 @@ Instead of conflating evidence layers (a common mistake), this extension properl
 
 ---
 
-## Live Verification (Fresh Proof — 2026-07-27)
+## Live Verification (Fresh Proof — 2026-07-27 Testnet)
 
-### Complete Evidence Chain on Hedera
+### Complete Evidence Chain on Hedera Testnet
 
-✅ **Governance** (Topic 0.0.8479702, Seq 86)  
+✅ **Governance** (Topic 0.0.8479702 testnet, Seq 86)  
 - `MINTING_POLICY_GRANT` active for both REC and CO2 minting
 - Both asset types enabled: `["REC", "CO2_TONNE_LOT"]`
 
-✅ **Telemetry** (Topic 0.0.8585272, Seq 492363)  
+✅ **Telemetry** (Topic 0.0.8585272 testnet, Seq 492363)  
 - Single sensor reading: 81.78 kWh
 - Ed25519 signature: `Pun060wg+...` (verifiable independently)
 - Hash: `76fabf49e7fec97e1c1b59b8b9880a4273eaed6f42d6a7fba394e69366177cf7`
@@ -82,19 +83,29 @@ Instead of conflating evidence layers (a common mistake), this extension properl
 - Both parent RECs valid and non-revoked
 - Final status: `ALLOCATED_CO2`
 
-### Verify Independently
+### Verify Independently (Testnet)
 
-**Browser** (Hashscan):
+**Browser** (Hashscan Testnet):
 ```
-https://hashscan.io/mainnet/topic/0.0.8585272?s=492366
+https://hashscan.io/testnet/topic/0.0.8585272?s=492366
 ```
 
-**API** (Hedera Mirror Node):
+**API** (Hedera Mirror Node Testnet):
 ```bash
-curl -X GET "https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585272/messages/492366"
+curl -X GET "https://testnet.mirrornode.hedera.com/api/v1/topics/0.0.8585272/messages/492366"
 ```
 
 **Details**: See `hcs-verification/HCS_PROOF_VERIFICATION.md`
+
+---
+
+## Deployment Timeline
+
+| Phase | Network | Date | Status |
+|-------|---------|------|--------|
+| **Phase 1-5** | Testnet | 2026-07-27 | ✅ Live & Verified |
+| **Mainnet Migration** | Testnet → Mainnet | 2026-11-17 00:00 MUT | ⏳ Scheduled |
+| **Phase 6+** | Mainnet | Post-2026-11-17 | 📋 Planned |
 
 ---
 
@@ -149,40 +160,40 @@ curl -X GET "https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585
 ```
 .
 ├── README.md (this file)
-├── Vre Parfe GBBC-IWA Extension/
-│   ├── VRE-PARFE-ContinuousCO2e-SPEC.md          Main specification
-│   ├── PASSPORT_PRODUCTION_READINESS_ADDENDUM.md Phase 6/7 roadmap
-│   ├── MISSIONCONTROL_CO2_PASSPORT_ADOPTION_INSTRUCTIONS.md
-│   ├── IWA_SUBMISSION_NOTES.md                  ← Start here for IWA review
-│   ├── ABBREVIATION_AND_RECONSTRUCTION_TASK.md
-│   │
-│   ├── VRE-PARFE-ContinuousCO2e/
-│   │   ├── GettingStarted.md
-│   │   ├── DeploymentPackage/
-│   │   │   ├── VariableTemplates.json           69 entries (all 21 top-level keys)
-│   │   │   ├── FormulaTemplates.json            3 gate equations
-│   │   │   ├── EntityExtensionTemplates.json
-│   │   │   ├── ExtensionSet.json
-│   │   │   ├── MessagePairs.json
-│   │   │   ├── AbbreviationProfile.json         118+ aliases, Phase 5
-│   │   │   └── protos/
-│   │   │       └── vreParfeContinuousCO2e.proto  Complete, no truncation
-│   │   │
-│   │   ├── InstancePackage/
-│   │   │   ├── AimFixedVariables.json           Fixed parameters (GEF, capacity)
-│   │   │   └── ClaimSources.json
-│   │   │
-│   │   └── examples/
-│   │       ├── canonical_passport_sample.json    Full 21-key example
-│   │       └── abbreviated_passport_sample.json  Abbreviated v1 example
-│   │
-│   ├── hcs-verification/                        ← Fresh proof (2026-07-27)
-│   │   ├── HCS_PROOF_VERIFICATION.md            Complete evidence chain
-│   │   ├── allocation_reconciliation_proof.json Live reconciliation (1,268 + 8,732 = 10,000)
-│   │   └── README.md                           How to independently verify
-│   │
-│   └── tools/
-│       └── record_reconstruction_tool.js        Canonical ↔ abbreviated conversion
+└── Vre Parfe GBBC-IWA Extension/
+    ├── VRE-PARFE-ContinuousCO2e-SPEC.md          Main specification
+    ├── PASSPORT_PRODUCTION_READINESS_ADDENDUM.md Phase 6/7 roadmap
+    ├── MISSIONCONTROL_CO2_PASSPORT_ADOPTION_INSTRUCTIONS.md
+    ├── IWA_SUBMISSION_NOTES.md                   ← Start here for IWA review
+    ├── ABBREVIATION_AND_RECONSTRUCTION_TASK.md
+    │
+    ├── VRE-PARFE-ContinuousCO2e/
+    │   ├── GettingStarted.md
+    │   ├── DeploymentPackage/
+    │   │   ├── VariableTemplates.json           69 entries (all 21 top-level keys)
+    │   │   ├── FormulaTemplates.json            3 gate equations
+    │   │   ├── EntityExtensionTemplates.json
+    │   │   ├── ExtensionSet.json
+    │   │   ├── MessagePairs.json
+    │   │   ├── AbbreviationProfile.json         118+ aliases, Phase 5
+    │   │   └── protos/
+    │   │       └── vreParfeContinuousCO2e.proto  Complete, no truncation
+    │   │
+    │   ├── InstancePackage/
+    │   │   ├── AimFixedVariables.json           Fixed parameters (GEF, capacity)
+    │   │   └── ClaimSources.json
+    │   │
+    │   └── examples/
+    │       ├── canonical_passport_sample.json    Full 21-key example
+    │       └── abbreviated_passport_sample.json  Abbreviated v1 example
+    │
+    ├── hcs-verification/                        ← Fresh proof (2026-07-27 testnet)
+    │   ├── HCS_PROOF_VERIFICATION.md            Complete evidence chain
+    │   ├── allocation_reconciliation_proof.json  Live reconciliation (1,268 + 8,732 = 10,000)
+    │   └── README.md                            How to independently verify
+    │
+    └── tools/
+        └── record_reconstruction_tool.js        Canonical ↔ abbreviated conversion
 ```
 
 ---
@@ -221,13 +232,14 @@ curl -X GET "https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585
 - 118+ scoped aliases
 - Lossless reconstruction
 - Zero evidence defaulting
+- Tested on Testnet (2026-07-27)
 
-### Phase 6 (Post-Launch) ⏳ Proposed
-**Content-Level Compaction**
+### Phase 6 (Post-Mainnet Migration) ⏳ Proposed
+**Content-Level Optimization**
 - Omit null fields
 - Deduplicate methodology
-- Compress allocations
 - Est. 40–50% payload reduction
+- Target: Post-2026-11-17
 
 ### Phase 7 (Future) ⏳ Proposed
 **Methodology Governance Reference**
@@ -242,7 +254,7 @@ curl -X GET "https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585
 **Start Here**:
 1. Read `IWA_SUBMISSION_NOTES.md` (this directory)
 2. Review `Vre Parfe GBBC-IWA Extension/VRE-PARFE-ContinuousCO2e-SPEC.md` (detailed spec)
-3. Verify `hcs-verification/HCS_PROOF_VERIFICATION.md` (live proof)
+3. Verify `hcs-verification/HCS_PROOF_VERIFICATION.md` (live testnet proof)
 
 **Technical Details**:
 - `DeploymentPackage/VariableTemplates.json` — All 69 variable definitions
@@ -252,17 +264,18 @@ curl -X GET "https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585
 
 **Verification**:
 - `hcs-verification/allocation_reconciliation_proof.json` — Live reconciliation math
-- Hashscan: https://hashscan.io/mainnet/topic/0.0.8585272?s=492366
-- API: https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585272/messages/492366
+- Hashscan (Testnet): https://hashscan.io/testnet/topic/0.0.8585272?s=492366
+- API (Testnet): https://testnet.mirrornode.hedera.com/api/v1/topics/0.0.8585272/messages/492366
+- **Note**: Testnet entity IDs; new entity IDs will be assigned on mainnet migration (2026-11-17)
 
 ---
 
 ## Recommended Next Steps
 
-✅ **Accept this submission** — Production-ready, live-verified, standards-aligned  
+✅ **Accept this submission** — Production-ready, testnet-verified, standards-aligned  
 ✅ **Link from VRE-PARFE-HydroRE** — Point readers to this as downstream consumer  
 ✅ **Use as reference** — Template for future token extensions (H2O, carbon removal)  
-✅ **Phase 6 roadmap** — Propose content-level optimization post-launch  
+✅ **Phase 6 roadmap** — Propose content-level optimization post-mainnet migration  
 
 ---
 
@@ -271,10 +284,15 @@ curl -X GET "https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585
 **Issuing Authority**: Three T's (Mauritius) Limited  
 **Registration No**: C19166743  
 **GitHub**: https://github.com/teslasworld/VRE-PARFE-CO2  
-**Hedera Entity**: 0.0.8411690  
+**Hedera Entity**: 0.0.8411690 (Testnet; new entity ID on Mainnet)  
+
+**Deployment Timeline**:
+- **Testnet**: 2026-07-27 (current, proven)
+- **Mainnet**: 2026-11-17 @ 00:00 hrs MUT (scheduled migration)
 
 ---
 
 **Generated**: 2026-07-27  
-**Proof Valid**: Indefinite (on Hedera Consensus Service)  
-**Status**: ✅ READY FOR IWA SUBMISSION  
+**Current Network**: Hedera Testnet  
+**Proof Valid Until**: Mainnet migration (2026-11-17) + indefinite on mainnet HCS  
+**Status**: ✅ READY FOR IWA SUBMISSION (Testnet Proof — Mainnet scheduled 2026-11-17)
