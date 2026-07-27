@@ -5,7 +5,7 @@
 **Package ID**: `VRE-PARFE-ContinuousCO2e` (v1.0.0)  
 **Standard**: GBBC/IWA dMRV 3.0  
 **Issuing Authority**: Three T's (Mauritius) Limited (C19166743)  
-**Hedera Network**: Mainnet  
+**Hedera Network**: Testnet  
 **Live Proof**: 2026-07-27 ✅  
 
 ---
