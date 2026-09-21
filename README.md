@@ -1,6 +1,6 @@
 # VRE-PARFE-CO2e-Passport — Carbon Token Extension Set for IWA TTF
 
-**Status**: ✅ **READY FOR IWA SUBMISSION**  
+**Status**: ✅ MERGED PR#20 on 9th September 2026 https://github.com/InterWorkAlliance/TokenTaxonomyFramework/pull/20 **  
 **Public Name**: `VRE-PARFE-CO2e-Passport`  
 **Package ID**: `VRE-PARFE-ContinuousCO2e` (v1.0.0)  
 **Standard**: GBBC/IWA dMRV 3.0  
@@ -277,4 +277,4 @@ curl -X GET "https://mainnet-public.mirrornode.hedera.com/api/v1/topics/0.0.8585
 
 **Generated**: 2026-07-27  
 **Proof Valid**: Indefinite (on Hedera Consensus Service)  
-**Status**: ✅ READY FOR IWA SUBMISSION  
+**Status**: ✅ MERGED PR#20 on 9th September 2026 https://github.com/InterWorkAlliance/TokenTaxonomyFramework/pull/20 
